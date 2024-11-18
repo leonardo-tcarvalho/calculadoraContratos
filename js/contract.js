@@ -7,6 +7,7 @@ function insertContract() {
   contracts.push({ value: contractValue });
   renderContracts();
   updateTotal();
+  newContract.value = ""; // Clear the input field
 }
 
 document
