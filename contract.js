@@ -4,10 +4,15 @@ function insertContract() {
   let newContract = document.getElementById("contract");
   let contractValue = parseFloat(newContract.value);
 
+  if (!contractValue || contractValue <= 0) {
+    alert("Por favor, insira um valor válido");
+    return;
+  }
+
   contracts.push({ value: contractValue });
   renderContracts();
   updateTotal();
-  newContract.value = ""; // Clear the input field
+  newContract.value = "";
 }
 
 document
@@ -25,8 +30,8 @@ function removeContract(index) {
 }
 
 function renderContracts() {
-  let tableContract = document.getElementById("table-body");
-  tableContract.innerHTML = "";
+  let contractsContainer = document.getElementById("contracts-container");
+  contractsContainer.innerHTML = "";
 
   let percentages = [20, 22.5, 27.5, 32.5, 37.5];
 
@@ -42,15 +47,30 @@ function renderContracts() {
       currency: "BRL",
     });
 
-    let row = document.createElement("tr");
-    row.innerHTML = `
-      <th>${index + 1}</th>
-      <th>${percentValue}%</th>
-      <th>${originalValueFormat}</th>
-      <th>${contractFormat}</th>
-      <th><button id="button-remove" onclick="removeContract(${index})">Remover</button></th>
-    `;
-    tableContract.appendChild(row);
+    let card = document.createElement("div");
+    card.className = "contract-card";
+    card.innerHTML = `
+            <div class="contract-info">
+                <div>
+                    <span>Número:</span>
+                    <span>${index + 1}</span>
+                </div>
+                <div>
+                    <span>Percentual:</span>
+                    <span>${percentValue}%</span>
+                </div>
+                <div>
+                    <span>Valor Original:</span>
+                    <span>${originalValueFormat}</span>
+                </div>
+                <div>
+                    <span>Valor Final:</span>
+                    <span>${contractFormat}</span>
+                </div>
+            </div>
+            <button class="btn-remove" onclick="removeContract(${index})">Remover</button>
+        `;
+    contractsContainer.appendChild(card);
   });
 }
 
